@@ -7,7 +7,8 @@ class ClockRange extends Component {
     this.state = {
       cursor: {
         x: 0,
-        y: 0
+        y: 0,
+        showing: false
       }
     }
   }
@@ -32,14 +33,29 @@ class ClockRange extends Component {
     })
   }
 
+  mouseEnter = () => {
+    this.setState({
+      cursor: Object.assign({}, this.state.cursor, {showing: true})
+    })
+  }
+
+  mouseLeave = () => {
+    this.setState({
+      cursor: Object.assign({}, this.state.cursor, {showing: false})
+    })
+  }
+
   render() {
     return (
       <svg ref={element => this.svg = element} viewBox='-1 -1 2 2' preserveAspectRatio='xMidYMid meet'
 
         xmlns="http://www.w3.org/2000/svg">
-        <circle cx='0' cy='0' r='0.9' stroke='black' strokeWidth='0.02' fill='none' onMouseMove={this.mouseMove} />
-        <circle cx={this.state.cursor.x} cy={this.state.cursor.y}
-          r='0.03' stroke='blue' strokeWidth='0.01' fill='none' />
+        <circle cx='0' cy='0' r='0.9' stroke='black' strokeWidth='0.03' fill='none'
+          onMouseMove={this.mouseMove} onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} />
+        {this.state.cursor.showing &&
+          <circle cx={this.state.cursor.x} cy={this.state.cursor.y}
+            r='0.03' stroke='blue' strokeWidth='0.015' fill='none' />
+        }
       </svg>
     )
   }
