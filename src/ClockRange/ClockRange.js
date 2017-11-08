@@ -17,7 +17,7 @@ class ClockRange extends Component {
     const x = Math.cos(2 * Math.PI * percent);
     const y = Math.sin(2 * Math.PI * percent);
 
-    return [x, y];
+    return {x, y};
   }
 
   mouseMove = (event) => {
@@ -46,9 +46,10 @@ class ClockRange extends Component {
   }
 
   render() {
+    const point = this.getCoordinatesForPercent(0);
     return (
       <svg ref={element => this.svg = element} viewBox='-1 -1 2 2' preserveAspectRatio='xMidYMid meet'
-
+        style={{transform: 'rotate(-0.25turn)'}}
         xmlns="http://www.w3.org/2000/svg">
         <circle cx='0' cy='0' r='0.9' stroke='black' strokeWidth='0.03' fill='none'
           onMouseMove={this.mouseMove} onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} />
@@ -56,12 +57,13 @@ class ClockRange extends Component {
           <circle cx={this.state.cursor.x} cy={this.state.cursor.y}
             r='0.03' stroke='blue' strokeWidth='0.015' fill='none' />
         }
+        <rect x={point.x} y={point.y} width='0.01' height='0.05' />
       </svg>
     )
   }
 }
 
-//style={{transform: 'rotate(-0.25turn)'}}
+//
 // <path d='M 1 0 A 1 1 0 0 1 0.8 0.59 L 0 0'></path>
 
 ClockRange.propTypes = {
